@@ -4,6 +4,9 @@ from discord.ext import commands
 
 import calendar, requests
 
+from .resources.shortcuts import *
+
+
 class BugCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -11,11 +14,9 @@ class BugCog(commands.Cog):
     @commands.command(name="bug")
     @commands.guild_only()
     async def bug(self, ctx, *, bug: str):
-        url = "https://acnhapi.com/v1/bugs/" + bug.lower().replace(" ", "_")
+        url = acnhapi + "bugs/" + bug.lower().replace(" ", "_")
 
         data = dict(requests.get(url).json())
-
-        emoji_bells = "<:bells:713809370416152597>"
 
         bug_name = data["name"]["name-USen"].title()
         bug_icon = data["icon_uri"]
@@ -59,7 +60,8 @@ class BugCog(commands.Cog):
         embed_data.add_field(name="**Price**", value=price, inline=False)
         embed_data.add_field(name="**Northern Hemisphere**", value=availability_northern, inline=False)
         embed_data.add_field(name="**Southern Hemisphere**", value=availability_southern, inline=False)
-        embed_data.set_footer(text="WIP with \U0001F49B from @Waiqi#0813... | Please DM for feedback!")
+        embed_data.set_footer(text=embed_footer_text)
+
         await ctx.channel.send(embed=embed_data)
 
 

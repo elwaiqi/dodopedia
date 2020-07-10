@@ -32,7 +32,6 @@ if __name__ == "__main__":
             print("Failed to load extension {extension}.", file=sys.stderr)
             traceback.print_exc()
 
-
 @bot.event
 async def on_ready():
     print(f"\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n")

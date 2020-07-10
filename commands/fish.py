@@ -4,6 +4,8 @@ from discord.ext import commands
 
 import calendar, requests
 
+from .resources.shortcuts import *
+
 
 class FishCog(commands.Cog):
     def __init__(self, bot):
@@ -12,11 +14,9 @@ class FishCog(commands.Cog):
     @commands.command(name="fish")
     @commands.guild_only()
     async def fish(self, ctx, *, fish: str):
-        url = "https://acnhapi.com/v1/fish/" + fish.lower().replace(" ", "_")
+        url = acnhapi + "fish/" + fish.lower().replace(" ", "_")
 
         data = dict(requests.get(url).json())
-
-        emoji_bells = "<:bells:713809370416152597>"
 
         fish_name = data["name"]["name-USen"].title()
         fish_icon = data["icon_uri"]
@@ -54,16 +54,18 @@ class FishCog(commands.Cog):
 
         shadow_size = data["shadow"]
 
-        embed_data = discord.Embed(title = f"**{fish_name}**", description = f"```{museum_phrase}```", colour = 0x00ff00)
-        embed_data.set_thumbnail(url = fish_icon)
-        embed_data.add_field(name = "**Location**", value = location, inline = True)
-        embed_data.add_field(name = "**Time**", value = time_of_day, inline = True)
-        embed_data.add_field(name = "**Shadow**", value = shadow_size, inline = True)
-        embed_data.add_field(name = "**Rarity**", value = rarity, inline = True)
-        embed_data.add_field(name = "**Price**", value = price, inline = True)
-        embed_data.add_field(name = "**Northern Hemisphere**", value = availability_northern, inline = False)
-        embed_data.add_field(name = "**Southern Hemisphere**", value = availability_southern, inline = False)
-        embed_data.set_footer(text = "WIP with \U0001F49B from @Waiqi#0813... | Please DM for feedback!")
+        embed_data = discord.Embed(title=f"**{fish_name}**", description=f"```{museum_phrase}```", colour=0x00ff00)
+        embed_data.set_thumbnail(url=fish_icon)
+        embed_data.add_field(name="**Location**", value=location, inline=True)
+        embed_data.add_field(name="**Time**", value=time_of_day, inline=True)
+        embed_data.add_field(name="**Shadow**", value=shadow_size, inline=True)
+        embed_data.add_field(name="**Rarity**", value=rarity, inline=True)
+        embed_data.add_field(name="**Price**", value=price, inline=True)
+        embed_data.add_field(name="**Northern Hemisphere**", value=availability_northern, inline=False)
+        embed_data.add_field(name="**Southern Hemisphere**", value=availability_southern, inline=False)
+
+        embed_data.set_footer(text=embed_footer_text)
+
         await ctx.channel.send(embed = embed_data)
 
 

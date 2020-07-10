@@ -4,6 +4,9 @@ from discord.ext import commands
 
 import calendar, requests
 
+from .resources.shortcuts import *
+
+
 class SeaCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -11,11 +14,9 @@ class SeaCog(commands.Cog):
     @commands.command(name = "sea")
     @commands.guild_only()
     async def sea(self, ctx, *, sea: str):
-        url = "https://acnhapi.com/v1/sea/" + sea.lower().replace(" ", "_")
+        url = acnhapi + "sea/" + sea.lower().replace(" ", "_")
 
         data = dict(requests.get(url).json())
-
-        emoji_bells = "<:bells:713809370416152597>"
 
         sea_name = data["name"]["name-USen"].title()
         sea_icon = data["icon_uri"]
@@ -51,16 +52,18 @@ class SeaCog(commands.Cog):
 
         shadow_size = data["shadow"]
 
-        embed_data = discord.Embed(title = f"**{sea_name}**", description = f"```{museum_phrase}```", colour = 0x00ff00)
-        embed_data.set_thumbnail(url = sea_icon)
+        embed_data = discord.Embed(title=f"**{sea_name}**", description=f"```{museum_phrase}```", colour=0x00ff00)
+        embed_data.set_thumbnail(url=sea_icon)
         embed_data.add_field(name="**Time**", value=time_of_day, inline=True)
         embed_data.add_field(name="**Shadow**", value=shadow_size, inline=True)
         embed_data.add_field(name="**Speed**", value=speed, inline=True)
         embed_data.add_field(name="**Price**", value=price, inline=False)
         embed_data.add_field(name="**Northern Hemisphere**", value=availability_northern, inline=False)
         embed_data.add_field(name="**Southern Hemisphere**", value=availability_southern, inline=False)
-        embed_data.set_footer(text="WIP with \U0001F49B from @Waiqi#0813... | Please DM for feedback!")
+        embed_data.set_footer(text=embed_footer_text)
+
         await ctx.channel.send(embed = embed_data)
+
 
 def setup(bot):
     bot.add_cog(SeaCog(bot))
