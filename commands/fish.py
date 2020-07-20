@@ -15,7 +15,7 @@ class FishCog(commands.Cog):
             self.data = json.load(fish_json)
             self.data_keys = self.data.keys()
 
-            fish_json.keys()
+            fish_json.close()
 
     @commands.command(name="fish")
     @commands.guild_only()
