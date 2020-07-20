@@ -8,18 +8,19 @@ import os, sys, traceback
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
+initial_extensions = [
+    "commands.art",
+    "commands.bugs",
+    "commands.fish",
+    "commands.fossils",
+    "commands.sea",
+    "commands.villagers"
+]
+
 def get_prefix(bot, message):
     prefixes = ["?"]
     
     return commands.when_mentioned_or(*prefixes)(bot, message)
-
-initial_extensions = [
-    "commands.art",
-    "commands.bug",
-    "commands.fish",
-    "commands.fossil",
-    "commands.sea"
-]
 
 bot = commands.Bot(command_prefix=get_prefix, description="ACNH Waiqi Bot")
 bot.remove_command("help")
@@ -37,8 +38,12 @@ async def on_ready():
     print(f"\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n")
 
     # Game Status
-    await bot.change_presence(activity=discord.Game(name="#yosoywaiqi"))
+    await bot.change_presence(activity=discord.Game(name="Animal Crossing: New Horizons"))
 
     print(f"Successfully logged in and booted...!")
+
+@bot.command()
+async def ping(ctx):
+    await  ctx.channel.send("Pong!")
 
 bot.run(TOKEN)

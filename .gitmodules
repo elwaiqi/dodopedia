@@ -1,0 +1,3 @@
+[submodule "commands/resources/ACNHAPI"]
+	path = commands/resources/ACNHAPI
+	url = https://github.com/alexislours/ACNHAPI
