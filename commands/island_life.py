@@ -8,7 +8,7 @@ from discord.ext import commands
 
 from .resources.shortcuts import *
 
-class VillagerCog(commands.Cog):
+class IslandCog(commands.Cog, name="Island"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -18,7 +18,11 @@ class VillagerCog(commands.Cog):
 
             villagers_json.close()
 
-    @commands.command(name="villager")
+    @commands.command(
+        name="villager",
+        description="Lookup info about a specific villager.",
+        usage="<villager name>"
+    )
     @commands.guild_only()
     async def villager(self, ctx, villager: str):
 
@@ -48,7 +52,12 @@ class VillagerCog(commands.Cog):
 
         await ctx.channel.send(embed=embed_data)
 
-    @commands.command(name="odds")
+    @commands.command(
+        name="villager-odds",
+        aliases=["odds"],
+        description="Calculate the odds of fiding a villager while island hopping.",
+        usage="<villager name> <# of same-species villagers owned> <# Nook Miles Tickets> [# of species completed, if any]"
+    )
     @commands.guild_only()
     async def vodds(self, ctx, villager: str, species_owned: int, nmt=1, species_completed=0):
         species_count = {
@@ -128,4 +137,4 @@ class VillagerCog(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(VillagerCog(bot))
+    bot.add_cog(IslandCog(bot))

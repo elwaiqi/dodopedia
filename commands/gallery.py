@@ -7,7 +7,7 @@ import json, requests
 from .resources.shortcuts import *
 
 
-class ArtCog(commands.Cog):
+class ArtCog(commands.Cog, name="Gallery"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -17,7 +17,12 @@ class ArtCog(commands.Cog):
 
             art_json.close()
     
-    @commands.command(name="artwork", aliases=["art"])
+    @commands.command(
+        name="artwork",
+        aliases=["art"],
+        description="Lookup info about a specific work of art (as its in-game-name).",
+        usage="<artwork name>"
+    )
     @commands.guild_only()
     async def art(self, ctx, *, artwork: str):
         artwork = cleanup_str(artwork)

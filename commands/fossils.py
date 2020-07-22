@@ -7,7 +7,7 @@ import json, requests
 from .resources.shortcuts import *
 
 
-class FossilCog(commands.Cog):
+class FossilCog(commands.Cog, name="Fossils"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -17,7 +17,11 @@ class FossilCog(commands.Cog):
 
             fossils_json.close()
 
-    @commands.command(name="fossil")
+    @commands.command(
+        name="fossil",
+        description="Lookup info about a specific fossil.",
+        usage="<named fossil name>"
+    )
     @commands.guild_only()
     async def fossil(self, ctx, *, fossil: str):
         fossil = cleanstr(fossil)
